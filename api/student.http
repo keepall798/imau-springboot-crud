@@ -1,0 +1,59 @@
+### ============================================================
+### 第 7 站：学生表 CRUD 测试请求
+### 用法：点每个请求上方的绿色三角发送（先启动项目）
+### 按文件里的顺序从上到下点，就是一次完整的增删改查
+### ============================================================
+### 【重要】地址末尾不要加斜杠：/students 可以，/students/ 会被当成另一个地址（404）
+### 【重要】id 是自增的，每次新增都会 +1。先点第 3 步看到实际 id，
+###        再把第 4~8 步里的 3 改成你实际看到的那个数字
+### ============================================================
+
+### 1. 新增学生（返回 id 是自动生成的，用 GET 全部能看到）
+POST http://localhost:8080/students
+Content-Type: application/json
+
+{
+  "name": "张三",
+  "age": 20
+}
+
+### 2. 再新增一个
+POST http://localhost:8080/students
+Content-Type: application/json
+
+{
+  "name": "李四",
+  "age": 21
+}
+
+### 3. 查全部（看 id 是多少，后面要用）
+GET http://localhost:8080/students
+
+### 4. 查一个（把 1 换成你实际看到的 id）
+GET http://localhost:8080/students/3
+
+### 5. 只改年龄（注意：name 不传，它不会被改成 null）
+PUT http://localhost:8080/students/3
+Content-Type: application/json
+
+{
+  "age": 22
+}
+
+### 6. 再查一次，确认只有 age 变了
+GET http://localhost:8080/students/3
+
+### 7. 删除
+DELETE http://localhost:8080/students/3
+
+### 8. 删完再查（应该 404 "学生不存在"）
+GET http://localhost:8080/students/3
+
+### 9. 姓名传空（应该 400，这是我们手写的校验）
+POST http://localhost:8080/students
+Content-Type: application/json
+
+{
+  "name": "",
+  "age": 20
+}

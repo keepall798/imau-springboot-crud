@@ -1,0 +1,58 @@
+### ============================================================
+### IDEA 自带的 HTTP Client 请求文件
+### 用法：点每个请求上方的绿色三角即可发送（不用装 Postman）
+### 前提：先启动项目（端口 8080）
+### ============================================================
+
+### 1. 新增用户（成功）
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "username": "李四",
+  "password": "123456"
+}
+
+### 1.1 新增用户（用户名重复 → HTTP 409）
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "username": "丁真",
+  "password": "123456"
+}
+
+### 1.2 新增用户（参数不合法 → HTTP 400）
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "username": "",
+  "password": "1"
+}
+
+### 2. 查询单个用户
+GET http://localhost:8080/users/丁真
+
+### 2.1 查询不存在的用户（→ HTTP 404）
+GET http://localhost:8080/users/不存在的人
+
+### 3. 分页 + 模糊查询（查全部）
+GET http://localhost:8080/users
+
+### 3.1 关键字搜索
+GET http://localhost:8080/users?keyword=丁
+
+### 3.2 分页参数
+GET http://localhost:8080/users?pageNum=1&pageSize=2
+
+### 4. 修改密码
+PUT http://localhost:8080/users/李四
+Content-Type: application/json
+
+{
+  "newPassword": "654321"
+}
+
+### 5. 删除用户
+DELETE http://localhost:8080/users/admin

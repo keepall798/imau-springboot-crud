@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: imau-springboot-crud
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 参数逐个说明：
+    #   useUnicode + characterEncoding=utf8 → 中文不发疯（表里存的是"丁真"这类中文）
+    #   useSSL=false                       → 本地开发不加密，避免证书警告
+    #   serverTimezone=Asia/Shanghai       → 时间不差 8 小时
+    #   allowPublicKeyRetrieval=true       → 将来换成 MySQL 8 的 caching_sha2 认证也能连
+    url: jdbc:mysql://localhost:3306/imau_learn?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    # 密码别写死在仓库里：优先读环境变量 DB_USERNAME / DB_PASSWORD，没配才用冒号后面的默认值
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
+    hikari:
+      maximum-pool-size: 10      # 连接池最大连接数
+      minimum-idle: 2            # 最少保留的空闲连接
+      connection-timeout: 3000   # 取连接最多等 3 秒，超时快速失败
+
+mybatis-plus:
+  configuration:
+    # 数据库列 user_name 自动映射到 Java 属性 userName
+    map-underscore-to-camel-case: true
+    # 把真正执行的 SQL 打到控制台 —— 学习 MyBatis-Plus 最有效的工具，上线时删掉这行
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
